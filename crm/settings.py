@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # THIS IS WRITTEN BY THE CODER TO MAKE THE DJANGO KNOW THE EXSITANCE OF ACCOUNTS IN OUR PROJECT
     'accounts',
 ]
 
@@ -116,7 +119,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATICFILES_DIRS=[
+
+    os.path.join(BASE_DIR,'static')
+
+]
+
+STATIC_URL = '/static/'
+MEDIA_URL= '/images/'
+
+# THIS IS WRITTEN BY THE CODER TO MAKE OUR DJANGO PROJECT KNOW THAT WE HAVE A STATIC FILE WITH IS HAVONG ALL THE IMAGES,CSS AND JS THINGS IN IT.
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
