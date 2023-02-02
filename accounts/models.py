@@ -65,5 +65,4 @@ class Order(models.Model):
 	date_created=models.DateTimeField(auto_now_add=True,null=True)
 
 	# WE HAVE MADE CHOICES IN STATUS SECTION BECAUSE WE WANT IT TO TAKE A CHOICE FROM THE STATUS WHENEVER WE MAKE SOME CHANGES TO IT.
-	status=models.CharField(max_length=200,null=True,choices=STATUS)
-
+	status=models.CharField(max_length=200,null=True,choices=STATUS)  
