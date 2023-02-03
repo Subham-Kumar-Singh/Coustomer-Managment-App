@@ -12,7 +12,7 @@
 			<h5>CUSTOMER:</h5>
 			<hr>
 			<a  class="btn btn-outline-info btn-sm btn-block" href="">Update Cusotmer</a>
-			<a  class="btn btn-outline-info btn-sm btn-block" href="">Delete Cusotmer</a>
+			<a  class="btn btn-outline-danger btn-sm btn-block" href="">Delete Cusotmer</a>
 		</div>
 	</div>
 
@@ -20,8 +20,8 @@
 		<div class="card card-body">
 			<h5>Contact Information:</h5>
 			<hr>
-			<p>Email: </p>
-			<p>Phone: </p>
+			<p>Email:{{customer.email}}</p>
+			<p>Phone:{{customer.phone }}</p>
 		</div>
 	</div>
 
@@ -29,7 +29,7 @@
 		<div class="card card-body">
 			<h5>Total Orders</h5>
 			<hr>
-			<h1 style="text-align: center;padding: 10px;"></h1> 
+			<h1 style="text-align: center;padding: 10px;">{{total_orders}}</h1> 
 		</div>
 	</div>
 </div>
@@ -60,12 +60,16 @@
 					<th>Remove</th>
 				</tr>
 
-				<!-- {% for i in customers%}
+				{% for i in orders%}
 				<tr>	
-					<td>{{i.name}}</td>
+					<td>{{i.product}}</td>
+					<td>{{i.product.category}}</td>
+					<td>{{i.date_created}}</td>
+					<td>{{i.status}}</td>
+					<td><a class="btn btn-sm btn-info " href="">Update</td>
+					<td><a class="btn btn-sm btn-danger " href="">Delete</td>
 				</tr>
-
-				{% endfor %} -->
+				{% endfor %}
 
 			</table>
   		</div>

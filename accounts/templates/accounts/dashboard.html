@@ -6,7 +6,7 @@
 
 <div class="row">
 	<div class="col-md-5">
-		<h5>CUSTOMER</h5>
+		<h5>CUSTOMER: </h5>
 		<hr>
 		<div class="card card-body">
 			<a  class="btn btn-primary btn-sm btn-block" href="">Create Customer</a>
@@ -17,8 +17,10 @@
 					<th>Orders</th>
 				</tr>
 
-				{% for i in customers%}
+				{% for i in customers%} 
 					<tr>
+						<td><a class="btn btn-sm btn-info" href="{% url 'customer' i.id %}">View</a></td>
+
 						<td>{{i.name}}</td>
 						<td>{{i.phone}}</td>
 					</tr>
@@ -46,6 +48,8 @@
 						<td>{{i.product}}</td>
 						<td>{{i.date_created}}</td>
 						<td>{{i.status}}</td>
+						<td><a class="btn btn-sm btn-info" href="">Update</a></td>
+						<td><a class="btn btn-sm btn-danger" href="">Delete</a></td>
 					</tr>
 				{% endfor %}
 			</table>
