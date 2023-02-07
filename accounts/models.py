@@ -64,6 +64,8 @@ class Order(models.Model):
 
 	# WE HAVE MADE CHOICES IN STATUS SECTION BECAUSE WE WANT IT TO TAKE A CHOICE FROM THE STATUS WHENEVER WE MAKE SOME CHANGES TO IT.
 	status=models.CharField(max_length=200,null=True,choices=STATUS)  
+	note=models.CharField(max_length=1000,null=True)
+
 
 	def __str__(self):
 		return self.product.name
