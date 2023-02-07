@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 # Create your views here.
+from django.forms import inlineformat_factory
 
 # we hav e used this in orderform function
 from .models import *
@@ -30,7 +31,6 @@ def products(request):
     return render(request, 'accounts/products.html',{'products':products})
 
 def customer(request, pk_test):
-
     customer=Customer.objects.get(id=pk_test)
     orders=customer.order_set.all()
 
@@ -40,9 +40,11 @@ def customer(request, pk_test):
     return render(request,'accounts/customer.html',context)
 
 
-def orderform(request):
+def orderform(request,pk):
 
-    form = OrderForm()
+    customer=Customer.objects.get(id=pk)
+
+    form = OrderForm(initial={'customer':customer})
 
     if request.method=='POST':
         form=OrderForm(request.POST)
@@ -57,10 +59,13 @@ def orderform(request):
 def updateOrder(request,pk):
 
     order=Order.objects.get(id=pk)
+    OrderFormSet=inlineformat_factory(Customer,Order,fields=('product','status'),extra=5)
+    formset=OrderFormSet(instance=customer)
 
     # we are using instance over here because we want to get the -
     # pre-filled data that is already filled into the form 
-    form = OrderForm(instance=order)
+
+    # form = OrderForm(instance=order)
 
     if request.method=='POST':
         form=OrderForm(request.POST,instance=order)
@@ -68,7 +73,7 @@ def updateOrder(request,pk):
             form.save()
             return redirect('/')
 
-    context={'form':form}
+    context={'formset':formset }
 
     return render(request,'accounts/order_form.html',context)
 

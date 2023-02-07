@@ -10,8 +10,6 @@ class Customer(models.Model):
 	# this date_created automatically take the time from the system
 	date_created=models.DateTimeField(auto_now_add=True,null=True)
 
-
-
 	# i have used this funtion just to show the name of the user that i have used insed of the number.
 	def __str__(self):
 		return self.name
@@ -60,7 +58,7 @@ class Order(models.Model):
 
 	# After using Foreignkey order have a relation with Customer and product
 
-	Customer=models.ForeignKey(Customer,null=True,on_delete=models.SET_NULL)
+	customer=models.ForeignKey(Customer,null=True,on_delete=models.SET_NULL)
 	product=models.ForeignKey(Product,null=True,on_delete=models.SET_NULL)
 	date_created=models.DateTimeField(auto_now_add=True,null=True)
 
