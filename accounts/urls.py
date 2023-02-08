@@ -8,4 +8,7 @@ urlpatterns = [
     path('order_form/<str:pk>/',views.orderform,name="order_form"),
     path('update_order/<str:pk>/',views.updateOrder,name="update_order"),
     path('delete_order/<str:pk>/',views.deleteOrder,name="delete_order"),
+    path('login/',views.loginPage,name="login"),
+    path('register/',views.register,name="register"),
+    path('logout/',views.logOutUser,name="logout"),
 ]

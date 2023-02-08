@@ -6,9 +6,17 @@ from django.forms import inlineformset_factory
 # we hav e used this in orderform function
 from .models import *
 from .filters import OrderFilter
-from .forms import OrderForm
+from .forms import *
+from django.contrib.auth.forms import UserCreationForm
 
+# this import wil provide the facilty to check the login authentication
+from django.contrib.auth import authenticate, login, logout
 
+# this will prevent the anonymous users from entering our site
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
+@login_required(login_url='login')
 def home(request):
     # taking and storing all the orders form Orders
     orders=Order.objects.all()
@@ -24,12 +32,14 @@ def home(request):
 
     return render(request,'accounts/dashboard.html',context)
 
+@login_required(login_url='login')
 def products(request):
     # taking and storing all the products from Products
     products=Product.objects.all()
 
     return render(request, 'accounts/products.html',{'products':products})
 
+@login_required(login_url='login')
 def customer(request, pk_test):
     customer=Customer.objects.get(id=pk_test)
     orders=customer.order_set.all()
@@ -44,7 +54,7 @@ def customer(request, pk_test):
     context={'customer':customer,'orders':orders,'total_orders':total_orders,'myfilter':myfilter}
     return render(request,'accounts/customer.html',context)
 
-
+@login_required(login_url='login')
 def orderform(request,pk):
     OrderFormSet=inlineformset_factory(Customer,Order,fields=('product','status'),extra=5)
     customer=Customer.objects.get(id=pk)
@@ -63,7 +73,7 @@ def orderform(request,pk):
     context={'formset':formset}
     return render(request,'accounts/order_form.html',context)
 
-
+@login_required(login_url='login')
 def updateOrder(request,pk):
 
     order=Order.objects.get(id=pk)
@@ -81,7 +91,7 @@ def updateOrder(request,pk):
 
     return render(request,'accounts/order_form.html',context)
 
-
+@login_required(login_url='login')
 def deleteOrder(request,pk):
 
     order=Order.objects.get(id=pk)
@@ -92,3 +102,58 @@ def deleteOrder(request,pk):
 
     context={'item':order}
     return render(request, 'accounts/delete.html',context)
+
+
+def loginPage(request):
+
+    # we are using request.user.is_authenticed beacuse we are not willing to given access to the 
+    # user from this page.
+    if request.user.is_authenticated:
+        return redirect('home')
+
+    else:
+
+        if request.method=='POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user=authenticate(request, username=username,password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                messages.info(request, "Username or Password is incorrect ")
+
+        context={}
+        return render(request,'accounts/login.html',context)
+
+def register(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+
+    else:
+
+        form=CreateUserForm()
+
+        # this post method is taking the input that are given in form and putting it through
+        # UserCreationForm method is it is valid then it is saving it .
+        # this is the advantage of the django form method
+        if request.method=='POST':
+            form =CreateUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+
+                user=form.cleaned_data.get('username')
+
+                # this is used to flash a message of success that is imported
+                # from django.contrib
+                messages.success(request, "account was created for " + user)
+                return redirect('login')
+
+        context={'form':form}
+        return render(request,'accounts/register.html',context)
+
+def logOutUser(request):
+    logout(request)
+    return redirect('login')

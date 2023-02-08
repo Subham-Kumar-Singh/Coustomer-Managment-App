@@ -1,8 +1,10 @@
 from django.forms import ModelForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django import forms
+
 from .models import Order
 
-# we have imported this for the date filtering
-from django_filters import DateFilter
 
 #  I Named it OrderForm because i have imported Order from model just added a Form into it 
 
@@ -14,4 +16,8 @@ class OrderForm(ModelForm):
 		# and if we want some of the fields from class order then we would have used list ["customer","product"]
 		fields='__all__'
 
-		exclude=['customer','date_created']
+	
+class CreateUserForm(UserCreationForm):
+	class Meta:
+		model=User
+		fields=['username','email','password1','password2',]
