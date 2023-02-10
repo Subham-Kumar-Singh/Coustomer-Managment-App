@@ -114,8 +114,17 @@ def deleteOrder(request,pk):
     context={'item':order}
     return render(request, 'accounts/delete.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['Customer'])
 def UserPage(request):
-    context={}
+    orders=request.user.customer.order_set.all()
+    print(orders)
+    total_orders=orders.count()
+    delivered=orders.filter(status='Delivered').count()
+    pending=orders.filter(status='Pending').count()
+
+    context={'orders':orders,'total_orders':total_orders,'delivered':delivered,'pending':pending}
+    # context={}
     return render(request,'accounts/user.html',context)
 
 
@@ -160,10 +169,13 @@ def register(request):
         if form.is_valid():
             user=form.save()
 
-            group=Group.objects.get(name='Customer')
-
-            user.groups.add(group)    
             username=form.cleaned_data.get('username')
+            group=Group.objects.get(name='Customer')
+            user.groups.add(group)    
+            
+            Customer.objects.create(
+                user=user,
+                )
 
             # this is used to flash a message of success that is imported
             # from django.contrib

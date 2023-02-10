@@ -1,9 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
 class Customer(models.Model):
 	# in all these we have marked null=True it is because we want that the entry can be left enpty as well
+	user=models.OneToOneField(User,null=True,on_delete=models.CASCADE)
 	name=models.CharField(max_length=200,null=True)
 	phone=models.CharField(max_length=200,null=True)
 	email=models.CharField(max_length=200,null=True)
