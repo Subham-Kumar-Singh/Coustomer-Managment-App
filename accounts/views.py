@@ -8,6 +8,7 @@ from .models import *
 from .filters import OrderFilter
 from .forms import *
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Group
 
 # this import wil provide the facilty to check the login authentication
 from django.contrib.auth import authenticate, login, logout
@@ -157,13 +158,16 @@ def register(request):
     if request.method=='POST':
         form =CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()
+            user=form.save()
 
-            user=form.cleaned_data.get('username')
+            group=Group.objects.get(name='Customer')
+
+            user.groups.add(group)    
+            username=form.cleaned_data.get('username')
 
             # this is used to flash a message of success that is imported
             # from django.contrib
-            messages.success(request, "account was created for " + user)
+            messages.success(request, "account was created for " + username)
             return redirect('login')
 
     context={'form':form}
