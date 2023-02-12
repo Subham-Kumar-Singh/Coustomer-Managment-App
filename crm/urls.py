@@ -16,8 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+# We are using this to import the changes from the settings
+from django.conf import settings
+
+# This will just allow us to set static files urls over here
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('accounts.urls')),
 ]
+
+urlpatterns+=static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

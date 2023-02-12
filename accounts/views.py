@@ -188,3 +188,14 @@ def register(request):
 def logOutUser(request):
     logout(request)
     return redirect('login')
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['Customer'])
+def accountSettings(request):
+
+    # This is providing me the details of the user that i am logedin with
+    user=request.user
+    form=CustomerForm(instance=user)
+    context={'form':form}
+    return render(request,'accounts/account_settings.html',context)
