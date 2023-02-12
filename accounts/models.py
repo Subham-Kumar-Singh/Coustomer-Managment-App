@@ -5,11 +5,12 @@ from django.contrib.auth.models import User
 
 class Customer(models.Model):
 	# in all these we have marked null=True it is because we want that the entry can be left enpty as well
-	user=models.OneToOneField(User,null=True,on_delete=models.CASCADE)
+	user=models.OneToOneField(User,null=True,blank=True,on_delete=models.CASCADE)
 	profile_pic=models.ImageField(null=True,blank=True)
 	name=models.CharField(max_length=200,null=True)
 	phone=models.CharField(max_length=200,null=True)
 	email=models.CharField(max_length=200,null=True)
+	profile_pic=models.ImageField(default="my.jpeg",null=True,blank=True)
 	# this date_created automatically take the time from the system
 	date_created=models.DateTimeField(auto_now_add=True,null=True)
 

@@ -195,7 +195,13 @@ def logOutUser(request):
 def accountSettings(request):
 
     # This is providing me the details of the user that i am logedin with
-    user=request.user
-    form=CustomerForm(instance=user)
+    customer=request.user.customer
+    form=CustomerForm(instance=customer)
+
+    if request.method=='POST':
+        form=CustomerForm(request.POST, request.FILES,instance=customer)
+        if form.is_valid():
+            form.save()
+
     context={'form':form}
     return render(request,'accounts/account_settings.html',context)
