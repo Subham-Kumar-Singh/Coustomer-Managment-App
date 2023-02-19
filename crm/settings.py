@@ -81,8 +81,12 @@ WSGI_APPLICATION = 'crm.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'demo_1',
+        'USER': 'subhamsingh',
+        'PASSWORD': '',
+        'HOST': 'database-1.cy0acg5cejhw.us-west-1.rds.amazonaws.com',
+        'POST': '5432',
     }
 }
 
@@ -121,17 +125,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATICFILES_DIRS=[
+STATICFILES_DIRS = [
 
-    os.path.join(BASE_DIR,'static')
+    os.path.join(BASE_DIR, 'static')
 
 ]
 
 STATIC_URL = '/static/'
-MEDIA_URL= '/images/'
+MEDIA_URL = '/images/'
 # THIS IS WRITTEN BY THE CODER TO MAKE OUR DJANGO PROJECT KNOW THAT WE HAVE A STATIC FILE WITH IS HAVONG ALL THE IMAGES,CSS AND JS THINGS IN IT.
 
-MEDIA_ROOT=os.path.join(BASE_DIR,'static/images')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 
 # Default primary key field type
